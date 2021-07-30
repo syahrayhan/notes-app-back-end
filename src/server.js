@@ -13,17 +13,17 @@ const init = async () => {
     host: process.env.HOST,
     routes: {
       cors: {
-        origin: ['*']
-      }
-    }
+        origin: ['*'],
+      },
+    },
   })
 
   await server.register({
     plugin: notes,
     options: {
       service: notesService,
-      validator: NotesValidator
-    }
+      validator: NotesValidator,
+    },
   })
 
   await server.start()

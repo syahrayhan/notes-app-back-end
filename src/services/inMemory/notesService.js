@@ -13,7 +13,7 @@ class NotesService {
     const updatedAt = createdAt
 
     const newNotes = {
-      title, tags, body, id, createdAt, updatedAt
+      title, tags, body, id, createdAt, updatedAt,
     }
 
     this._notes.push(newNotes)
@@ -55,7 +55,7 @@ class NotesService {
       title,
       tags,
       body,
-      updatedAt
+      updatedAt,
     }
   }
 

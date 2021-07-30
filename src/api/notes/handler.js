@@ -17,14 +17,14 @@ class NotesHandler {
       this._validator.validateNotePayload(request.payload)
       const { title = 'untitled', body, tags } = request.payload
 
-      const noteId = await this._service.addNote({ title, body, tags })
+      const noteId = await this._service.addNotee({ title, body, tags })
 
       const response = h.response({
         status: 'success',
         message: 'Catatan berhasil ditambahkan',
         data: {
-          noteId
-        }
+          noteId,
+        },
       })
       response.code(201)
       return response
@@ -32,7 +32,7 @@ class NotesHandler {
       if (error instanceof ClientError) {
         const response = h.response({
           status: 'fail',
-          message: error.message
+          message: error.message,
         })
         response.code(error.statusCode)
         return response
@@ -41,7 +41,7 @@ class NotesHandler {
       // Server ERROR!
       const response = h.response({
         status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.'
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       })
       response.code(500)
       console.error(error)
@@ -54,8 +54,8 @@ class NotesHandler {
     return {
       status: 'success',
       data: {
-        notes
-      }
+        notes,
+      },
     }
   }
 
@@ -66,14 +66,14 @@ class NotesHandler {
       return {
         status: 'success',
         data: {
-          note
-        }
+          note,
+        },
       }
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
           status: 'fail',
-          message: error.message
+          message: error.message,
         })
         response.code(error.statusCode)
         return response
@@ -82,7 +82,7 @@ class NotesHandler {
       // Server ERROR!
       const response = h.response({
         status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.'
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       })
       response.code(500)
       console.error(error)
@@ -100,13 +100,13 @@ class NotesHandler {
 
       return {
         status: 'success',
-        message: 'Catatan berhasil diperbarui'
+        message: 'Catatan berhasil diperbarui',
       }
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
           status: 'fail',
-          message: error.message
+          message: error.message,
         })
         response.code(error.statusCode)
         return response
@@ -115,7 +115,7 @@ class NotesHandler {
       // Server ERROR!
       const response = h.response({
         status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.'
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       })
       response.code(500)
       console.error(error)
@@ -130,13 +130,13 @@ class NotesHandler {
 
       return {
         status: 'success',
-        message: 'Catatan berhasil dihapus'
+        message: 'Catatan berhasil dihapus',
       }
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
           status: 'fail',
-          message: error.message
+          message: error.message,
         })
         response.code(error.statusCode)
         return response
@@ -145,7 +145,7 @@ class NotesHandler {
       // Server ERROR!
       const response = h.response({
         status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.'
+        message: 'Maaf, terjadi kegagalan pada server kami.',
       })
       response.code(500)
       console.error(error)
