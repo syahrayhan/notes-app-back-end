@@ -41,8 +41,8 @@ class NotesService {
     }
 
     const result = await this._pool.query(query)
-    if (result.rowCount.length) {
-      throw new NotFoundError('Catatan tidaks ditemukan')
+    if (!result.rowCount) {
+      throw new NotFoundError('Catatan tidak ditemukan')
     }
 
     return result.rows.map(mapDbToModel)[0]
@@ -65,7 +65,7 @@ class NotesService {
 
   async deleteNoteById (id) {
     const query = {
-      text: 'DELETE FROM notes where id = $1 RETURNING id',
+      text: 'DELETE FROM notes WHERE id = $1 RETURNING id',
       values: [id],
     }
 
