@@ -6,8 +6,9 @@ const NotFoundError = require('../../exceptions/NotFoundError')
 const { mapDbToModel } = require('../../utils')
 
 class NotesService {
-  constructor () {
+  constructor (collaborationService) {
     this._pool = new Pool()
+    this._collaborationService = collaborationService
   }
 
   async addNotee ({ title, body, tags, owner }) {
@@ -96,6 +97,21 @@ class NotesService {
 
     if (!result.rows.length) {
       throw new NotFoundError('Catatan gagal dihapus. Id tidak ditemukan')
+    }
+  }
+
+  async verifyNoteAccess (noteId, userId) {
+    try {
+      await this.verifyNoteOwner(noteId, userId)
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        throw error
+      }
+      try {
+        await this._collaborationService.verifyCollaborator(noteId, userId)
+      } catch {
+        throw error
+      }
     }
   }
 }
