@@ -8,6 +8,22 @@ class CollaborationsHandler {
   async postCollaborationHandler (request, h) {
     try {
       this._validator.validateCollaborationPayload(request.payload)
+      const { id: credentialId } = request.auth.credentials
+      const { noteId, userId } = request.payload
+      this._notesService.verifyNoteOwner(noteId, credentialId)
+
+      await this._notesService.verifyNoteOwner(noteId, credentialId)
+      const collaborationId = await this._collaborationsService.addCollaboration(noteId, userId)
+
+      const response = h.response({
+        status: 'success',
+        message: 'Kolaborasi berhasil ditambahkan',
+        data: {
+          collaborationId,
+        },
+      })
+      response.code(201)
+      return response
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
