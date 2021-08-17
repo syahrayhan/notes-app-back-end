@@ -31,7 +31,6 @@ class NotesService {
   }
 
   async getNotes (owner) {
-    console.log('get' + owner)
     const query = {
       text: `SELECT notes.* FROM notes
       LEFT JOIN collaborations ON collaborations.note_id = notes.id
@@ -41,12 +40,10 @@ class NotesService {
     }
 
     const result = await this._pool.query(query)
-    console.log(result.rows)
     return result.rows.map(mapDbToModel)
   }
 
   async verifyNoteOwner (id, owner) {
-    console.log(owner)
     const query = {
       text: 'SELECT * FROM notes WHERE id = $1',
       values: [id],
@@ -58,7 +55,6 @@ class NotesService {
       throw new NotFoundError('Catatan tidak ditemukan')
     }
     const note = result.rows[0]
-    console.log(owner)
     if (note.owner !== owner) {
       throw new AuthorizationError('Anda tidak berhak mengakses resource ini')
     }
